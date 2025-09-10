@@ -10,8 +10,9 @@ This widget provides a flexible and highly customizable tab interface that allow
 *   **Rotating UI**: Click a tab in a background row to bring it to the front.
 *   **Justified Layout**: Tabs automatically stretch to fill the available width of the widget.
 *   **Fixed Tab Layout**: Optionally, set a fixed number of tabs per row for a grid-like layout.
-*   **Customizable Styles**: Comes with built-in styles (Default, Rounded, Dark) and can be easily extended with your own themes via a simple style file.
+*   **Customizable Styles**: Comes with built-in styles (Default, Rounded, Dark Rounded) and can be easily extended with your own themes via a simple style file.
 *   **Portable Logging**: Integrates with your application's existing logging system.
+*   **Tab Management**: Access tab count and programmatically control tab selection.
 
 ## Installation
 
@@ -31,7 +32,7 @@ import sys
 import logging
 from PyQt5.QtWidgets import QApplication, QMainWindow, QLabel, QWidget, QVBoxLayout
 from rotating_tab_widget import RotatingTabWidget
-from tab_styles import STYLE_ROUNDED # Import a style
+from tab_styles import STYLE_ROUNDED, STYLE_DARK_ROUNDED # Import styles
 
 # 1. (Optional) Set up your application's logger
 app_logger = logging.getLogger("my_app")
@@ -62,6 +63,10 @@ class MyMainWindow(QMainWindow):
             layout.addWidget(QLabel(f"Content for Tab {i}"))
             
             self.tab_widget.addTab(content, f"Tab {i}")
+        
+        # 5. Access widget information
+        print(f"Total tabs: {self.tab_widget.count()}")
+        print(f"Current tab index: {self.tab_widget.currentIndex()}")
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
@@ -69,6 +74,18 @@ if __name__ == "__main__":
     window.show()
     sys.exit(app.exec_())
 ```
+
+## API Methods
+
+The `RotatingTabWidget` provides the following methods:
+
+*   **`addTab(widget, text, icon=None)`**: Add a new tab with the specified widget content, text, and optional icon.
+*   **`setTabsPerRow(count)`**: Set a fixed number of tabs per row for a grid-like layout.
+*   **`setTabStyle(style)`**: Apply a style (e.g., `STYLE_DEFAULT`, `STYLE_ROUNDED`, `STYLE_DARK_ROUNDED`).
+*   **`currentIndex()`**: Get the index of the currently selected tab.
+*   **`setCurrentIndex(index)`**: Programmatically select a tab by index.
+*   **`count()`**: Get the total number of tabs in the widget.
+*   **`widget(index)`**: Get the widget content of a tab by index.
 
 ## Customization
 
@@ -94,7 +111,28 @@ MY_CUSTOM_STYLE = {
 You can then import and use this style in your application:
 
 ```python
-from tab_styles import MY_CUSTOM_STYLE
+from tab_styles import MY_CUSTOM_STYLE, STYLE_DARK_ROUNDED
 # ...
 my_tab_widget.setTabStyle(MY_CUSTOM_STYLE)
+# Or use the built-in dark theme
+my_tab_widget.setTabStyle(STYLE_DARK_ROUNDED)
 ```
+
+## Available Built-in Styles
+
+The widget comes with three built-in styles:
+
+*   **`STYLE_DEFAULT`**: Basic tab appearance using system styling
+*   **`STYLE_ROUNDED`**: Rounded tabs with custom colors and padding  
+*   **`STYLE_DARK_ROUNDED`**: Dark theme with rounded tabs, perfect for dark mode applications
+
+## License
+
+This project is licensed under the **GPL v3 License** for non-commercial use, as required by the PyQt5 dependency. 
+
+**Important Licensing Notes:**
+- PyQt5 is dual-licensed under GPL v3 and a commercial license from Riverbank Computing
+- For **non-commercial use**: This project and PyQt5 can be used under GPL v3
+- For **commercial use**: You must obtain a commercial license for PyQt5 from Riverbank Computing
+
+If you plan to use this widget in a commercial application, please ensure you have the appropriate PyQt5 commercial license or consider using PySide2/PySide6 (Qt for Python) which is available under LGPL license.

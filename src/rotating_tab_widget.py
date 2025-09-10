@@ -20,7 +20,7 @@ from PyQt5.QtWidgets import (
 from PyQt5.QtCore import Qt, pyqtSignal, QRect, QPoint
 from PyQt5.QtGui import QIcon, QPainter, QColor, QFontMetrics, QPainterPath
 
-from . import tab_styles
+import tab_styles
 
 class RotatingTabBar(QWidget):
     currentChanged = pyqtSignal(int)
@@ -260,6 +260,9 @@ class RotatingTabWidget(QWidget):
 
     def currentIndex(self):
         return self._stack.currentIndex()
+
+    def count(self):
+        return self._stack.count()
 
     def setCurrentIndex(self, index):
         if 0 <= index < self._stack.count():
